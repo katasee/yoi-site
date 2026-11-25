@@ -1,0 +1,72 @@
+/* Scroll story: a sticky stage where the app animates as the page scrolls */
+.story { position: relative; padding: 0; }
+.story-stage { position: relative; }
+.story-copy { padding: 64px 0 8px; }
+.story-step + .story-step { margin-top: 40px; }
+.story-step h2 { font-size: clamp(32px, 6vw, 56px); }
+.story-step h2 .ln { display: block; }
+.story-step p { margin-top: 14px; max-width: 26em; color: var(--muted); font-size: 18px; }
+.story-visual, .story-dots { display: none; }
+
+/* With JavaScript: the section gets tall and the stage sticks to the screen */
+.story.is-live .story-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.story-grid { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+.story.is-live .story-grid { position: relative; height: 100%; max-width: none; padding: 0; }
+.story.is-live .story-copy { position: absolute; left: 20px; right: 20px; top: 0; padding: 0; height: var(--copy-h, 170px); }
+.story.is-live .story-step { position: absolute; left: 0; right: 0; top: 28px; margin: 0; text-align: center; }
+.story.is-live .story-step h2 { font-size: clamp(30px, 8.4vw, 40px); }
+.story.is-live .story-step h2 .ln { overflow: hidden; padding: .02em 0 .1em; }
+.story.is-live .story-step h2 .ln > span { display: inline-block; will-change: transform; }
+.story.is-live .story-step p { margin: 8px auto 0; font-size: 15px; line-height: 1.45; max-width: 22em; will-change: transform, opacity; }
+.story.is-live .story-visual { display: block; position: absolute; left: 50%; top: var(--copy-h, 170px); bottom: 0; width: 0; }
+.story.is-live .story-dots { display: flex; gap: 6px; position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 3; }
+
+.story-dots i { width: 18px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .14); overflow: hidden; position: relative; }
+.story-dots i::after { content: ""; position: absolute; inset: 0; background: var(--rose); transform: scaleX(var(--f, 0)); transform-origin: left; }
+
+.st-glow { position: absolute; left: 0; top: 0; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(107, 52, 66, .55), rgba(107, 52, 66, .16) 55%, rgba(107, 52, 66, 0)); }
+.st-plane { position: absolute; left: 0; top: 50%; width: 0; height: 0; }
+.st-plane > * { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+
+/* iPhone 18 Pro, black */
+.st-phone { width: 418px; height: 872px; margin: -436px 0 0 -209px; }
+.st-phone .alu { position: absolute; inset: 0; border-radius: 67px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 4%, rgba(255,255,255,0) 96%, rgba(0,0,0,.35) 100%),
+    linear-gradient(90deg, #0a0a0c 0%, #6c6c72 1.6%, #2e2e33 3.2%, #1d1d21 9%, #161619 50%, #1d1d21 91%, #2e2e33 96.8%, #6c6c72 98.4%, #0a0a0c 100%);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 60px 110px rgba(0,0,0,.65), 0 20px 40px rgba(0,0,0,.4); }
+.st-phone .face { position: absolute; inset: 3.5px; border-radius: 64px; background: #040304; box-shadow: inset 0 0 0 1px rgba(255,255,255,.07), inset 0 1px 0 rgba(255,255,255,.12); }
+.st-phone .scr { position: absolute; left: 14px; top: 14px; width: 390px; height: 844px; border-radius: 55px; overflow: hidden; background: #0B080B; }
+.st-phone .shine { position: absolute; left: 14px; top: 14px; width: 390px; height: 844px; border-radius: 55px; pointer-events: none;
+  background: linear-gradient(118deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,.02) 26%, rgba(255,255,255,0) 40%); }
+.st-phone .isl { position: absolute; left: 50%; top: 25px; width: 84px; height: 34px; margin-left: -42px; border-radius: 17px; background: #000; }
+.st-phone .isl::after { content: ""; position: absolute; right: 11px; top: 11px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #2a3a55 0%, #0b0f18 55%, #000 100%); }
+.st-phone .key { position: absolute; width: 4px; border-radius: 2px; background: linear-gradient(90deg, #0a0a0c, #5c5c62 45%, #1d1d21); }
+.st-phone .key.l { left: -2.5px; }
+.st-phone .key.r { right: -2.5px; background: linear-gradient(270deg, #0a0a0c, #5c5c62 45%, #1d1d21); }
+
+.st-icon { width: 150px; height: 150px; max-width: none; border-radius: 34px; box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 30px 90px rgba(107,52,66,.8); }
+.st-scrap { color: #fff; box-sizing: border-box; font-weight: 500; }
+
+/* Liquid glass, as in the video */
+.st-lg { -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%);
+  background: linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.05) 45%, rgba(255,255,255,.08));
+  box-shadow: inset 0 1.5px 1px rgba(255,255,255,.3), inset 0 0 30px rgba(255,255,255,.05), 0 24px 60px rgba(0,0,0,.5); }
+.st-lg--wine { background: linear-gradient(160deg, rgba(176,92,115,.72), rgba(107,52,66,.6) 50%, rgba(120,58,74,.66)); }
+.st-bubble { color: #fff; box-sizing: border-box; white-space: pre-line; }
+
+@media (min-width: 960px) {
+  .story.is-live .story-copy { left: 20px; right: auto; top: 0; bottom: 0; width: 46%; height: auto; }
+  .story.is-live .story-step { top: 50%; text-align: left; transform: translateY(-50%); }
+  .story.is-live .story-step h2 { font-size: clamp(42px, 4.1vw, 58px); }
+  .story.is-live .story-step p { margin: 18px 0 0; font-size: 19px; max-width: 24em; }
+  .story.is-live .story-visual { left: 73%; top: 0; }
+  .story.is-live .story-dots { left: 20px; bottom: auto; top: calc(50% + 190px); transform: none; }
+  .story-dots i { width: 26px; }
+}
+@media (min-width: 1120px) {
+  .story.is-live .story-copy { left: calc(50% - 520px); width: 560px; }
+  .story.is-live .story-dots { left: calc(50% - 520px); }
+  .story.is-live .story-visual { left: calc(50% + 250px); }
+}
