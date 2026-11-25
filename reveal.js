@@ -15,3 +15,20 @@
     observer.observe(item);
   });
 })();
+
+// Promo video: play only while it is on screen (it is muted, so autoplay is allowed)
+(function () {
+  var videos = document.querySelectorAll(".promo-video");
+  if (!videos.length) return;
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  videos.forEach(function (video) {
+    if (reduce) { video.controls = true; return; }
+    if (!("IntersectionObserver" in window)) { video.autoplay = true; video.play().catch(function () {}); return; }
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) video.play().catch(function () { video.controls = true; });
+        else video.pause();
+      });
+    }, { threshold: 0.35 }).observe(video);
+  });
+})();
